@@ -10,15 +10,7 @@ import java.io.PrintWriter;
 import java.util.Map;
 
 public class yfBolt extends BaseBasicBolt {
-    private PrintWriter writer;
-
     public void prepare(Map stormConf, TopologyContext context) {
-        String fileName = stormConf.get("fileToWrite").toString();
-        try {
-            this.writer = new PrintWriter(fileName, "UTF-8");
-        } catch (Exception e) {
-            throw new RuntimeException("Error opening file [" + fileName + "]");
-        }
     }
 
 
@@ -36,7 +28,6 @@ public class yfBolt extends BaseBasicBolt {
         }
 
         collector.emit(new Values(symbol, timestamp, price,gain));
-        writer.println(symbol + ", " + timestamp + ", " + price + ", " + gain);
     }
 
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
@@ -44,6 +35,6 @@ public class yfBolt extends BaseBasicBolt {
     }
 
     public void cleanup() {
-        writer.close();
+
     }
 }
